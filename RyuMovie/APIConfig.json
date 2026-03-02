@@ -1,4 +1,4 @@
 {
-    tmdbBaseURL = "https://api.themoviedb.org/",
-    tmdbAPIKey = "eea3e8318276c90e4f6bc02ee5dd8709"
+    "tmdbBaseURL": "https://api.themoviedb.org/",
+    "tmdbAPIKey": "eea3e8318276c90e4f6bc02ee5dd8709"
 }
