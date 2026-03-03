@@ -28,6 +28,15 @@ struct Constants {
     static let testTitltURL2 = "https://media.japanesestation.com/images/original/2020/05/11/53013-patma-inverted-poster.jpg"
     static let testTitleURL3 = "https://images-cdn.ubuy.vn/634e8d8b2b71536d8d294acc-kimi-no-na-wa-your-name-2016-movie.jpg"
     
+    static let posterPathURL = "https://image.tmdb.org/t/p/w500"
+    
+    static func addPosterPath(to titles: inout[Title]) {
+        for index in titles.indices {
+            if let path = titles[index].posterPath {
+                titles[index].posterPath = Constants.posterPathURL + path
+            }
+        }
+    }
 }
 
 extension Text {

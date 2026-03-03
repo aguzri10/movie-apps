@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+// Entry point aplikasi (analog Flutter: main() + runApp)
+// WindowGroup = root window
+// ContentView() = halaman pertama yang ditampilkan
+
 @main
 struct RyuMovieApp: App {
     var body: some Scene {
