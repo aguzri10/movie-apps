@@ -24,6 +24,7 @@ struct HomeView: View {
                     EmptyView()
                 case .fetching:
                     ProgressView()
+                        .frame(width: geo.size.width, height: geo.size.height)
                 case .success:
                     LazyVStack {
                         AsyncImage(url: URL(string: heroTestTitle)) { image in
@@ -55,6 +56,9 @@ struct HomeView: View {
                         }
                         
                         HorizontalListView(header: Constants.trendingMovieString, titles: viewModel.trendingMovies)
+                        HorizontalListView(header: Constants.trendingTVString, titles: viewModel.trendingTV)
+                        HorizontalListView(header: Constants.topRatedMovieString, titles: viewModel.topRatedMovies)
+                        HorizontalListView(header: Constants.topRatedTVString, titles: viewModel.topRatedTV)
                     }
                 case .failed(let error):
                     Text("Error fetching data: \(error.localizedDescription)")
