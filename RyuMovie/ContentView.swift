@@ -8,25 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var path = NavigationPath()
     var body: some View {
-        TabView {
-            Tab(Constants.homeString, systemImage: Constants.homeIconString) {
-                HomeView()
+        NavigationStack(path: $path) {
+            TabView {
+                Tab(Constants.homeString, systemImage: Constants.homeIconString) {
+                    HomeView(path: $path)
+                }
+                Tab(Constants.upcomingString, systemImage: Constants.upcomingIconString) {
+                    UpcomingView(path: $path)
+                }
+                Tab(Constants.searchString, systemImage: Constants.searchIconString) {
+                    Text(Constants.searchString)
+                }
+                Tab(Constants.downloadString, systemImage: Constants.downloadIconString) {
+                    Text(Constants.downloadString)
+                }
             }
-            Tab(Constants.upcomingString, systemImage: Constants.upcomingIconString) {
-                Text(Constants.upcomingString)
+            .onAppear {
+                if let config = APIConfig.shared {
+                    print(config.tmdbAPIKey)
+                    print(config.tmdbBaseURL)
+                }
             }
-            Tab(Constants.searchString, systemImage: Constants.searchIconString) {
-                Text(Constants.searchString)
-            }
-            Tab(Constants.downloadString, systemImage: Constants.downloadIconString) {
-                Text(Constants.downloadString)
-            }
-        }
-        .onAppear {
-            if let config = APIConfig.shared {
-                print(config.tmdbAPIKey)
-                print(config.tmdbBaseURL)
+            .navigationDestination(for: Title.self) { title in TitleDetailView(title: title)
             }
         }
     }

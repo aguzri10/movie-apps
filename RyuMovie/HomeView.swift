@@ -13,8 +13,8 @@ import SwiftUI
 // trendingMovies passed to HorizontalListView for rendering
 
 struct HomeView: View {
-    var heroTestTitle = Constants.testTitleURL
-    let viewModel = ViewModel()
+    @StateObject private var viewModel = ViewModel()
+    @Binding var path : NavigationPath
     
     var body: some View {
         GeometryReader { geo in
@@ -27,7 +27,7 @@ struct HomeView: View {
                         .frame(width: geo.size.width, height: geo.size.height)
                 case .success:
                     LazyVStack {
-                        AsyncImage(url: URL(string: heroTestTitle)) { image in
+                        AsyncImage(url: URL(string: viewModel.heroTitle.posterPath ?? "")) { image in
                             image
                                 .resizable()
                                 .scaledToFit()
@@ -41,7 +41,7 @@ struct HomeView: View {
                         
                         HStack {
                             Button {
-                                
+                                path.append(viewModel.heroTitle)
                             } label: {
                                 Text(Constants.playString)
                                     .gostButton()
@@ -55,10 +55,10 @@ struct HomeView: View {
                             }
                         }
                         
-                        HorizontalListView(header: Constants.trendingMovieString, titles: viewModel.trendingMovies)
-                        HorizontalListView(header: Constants.trendingTVString, titles: viewModel.trendingTV)
-                        HorizontalListView(header: Constants.topRatedMovieString, titles: viewModel.topRatedMovies)
-                        HorizontalListView(header: Constants.topRatedTVString, titles: viewModel.topRatedTV)
+                        HorizontalListView(header: Constants.trendingMovieString, titles: viewModel.trendingMovies) { title in path.append(title)}
+                        HorizontalListView(header: Constants.trendingTVString, titles: viewModel.trendingTV) { title in path.append(title)}
+                        HorizontalListView(header: Constants.topRatedMovieString, titles: viewModel.topRatedMovies) { title in path.append(title)}
+                        HorizontalListView(header: Constants.topRatedTVString, titles: viewModel.topRatedTV) { title in path.append(title)}
                     }
                 case .failed(let error):
                     Text("Error fetching data: \(error.localizedDescription)")
@@ -69,8 +69,9 @@ struct HomeView: View {
             }
         }
     }
+    
 }
 
 #Preview {
-    HomeView()
+    HomeView(path: .constant(NavigationPath()))
 }
