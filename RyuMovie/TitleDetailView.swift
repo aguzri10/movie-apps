@@ -12,32 +12,44 @@ struct TitleDetailView: View {
     var titleName: String {
         return (title.name ?? title.title) ?? ""
     }
-    
+
     @StateObject private var viewModel = ViewModel()
-    
+
     var body: some View {
-        GeometryReader { geo in
-            switch viewModel.videoIdStatus {
-            case .notStarted:
-                EmptyView()
-            case .fetching:
-                ProgressView().frame(width: geo.size.width, height: geo.size.height)
-            case .success:
-                ScrollView {
-                    LazyVStack (alignment: .leading) {
+        ScrollView {
+            GeometryReader { geo in
+                switch viewModel.videoIdStatus {
+                case .notStarted:
+                    EmptyView()
+
+                case .fetching:
+                    ProgressView()
+                        .frame(width: geo.size.width, height: geo.size.height)
+
+                case .success:
+                    LazyVStack(alignment: .leading) {
                         YoutubePlayer(videoId: viewModel.videoId)
-                            .aspectRatio(1.3 ,contentMode: .fit)
-                        Text(titleName).bold().font(.title2).padding(.horizontal, 16)
-                        Text(title.overview ?? "").padding(.horizontal, 16)
+                            .aspectRatio(1.3, contentMode: .fit)
+
+                        Text(titleName)
+                            .bold()
+                            .font(.title2)
+                            .padding(.horizontal, 16)
+
+                        Text(title.overview ?? "")
+                            .padding(.horizontal, 16)
                     }
+
+                case .failed(let error):
+                    Text(error.localizedDescription)
                 }
-            case .failed(let underlyingError):
-                Text(underlyingError.localizedDescription)
+            }
+            .task {
+                await viewModel.getVideoId(for: titleName)
             }
         }
-        .task {
-            await viewModel.getVideoId(for: titleName)
-        }
+        .toolbar(.hidden, for: .navigationBar)
+        .ignoresSafeArea(.container, edges: .top)
     }
 }
 

@@ -18,11 +18,17 @@ struct Constants {
     static let trendingTVString = "Trending TV"
     static let topRatedMovieString = "Top Rated Movies"
     static let topRatedTVString = "Top Rated TV"
+    static let movieSearchString = "Movie Search"
+    static let tvSearchString = "TV Search"
+    static let moviePlaceHolderString = "Search for a Movie"
+    static let tvPlaceHolderString = "Search for a TV Show"
     
     static let homeIconString = "house"
     static let upcomingIconString = "play.circle"
     static let searchIconString = "magnifyingglass"
     static let downloadIconString = "arrow.down.to.line"
+    static let movieIconString = "movieclapper"
+    static let tvIconString = "tv"
     
     static let testTitleURL = "https://m.media-amazon.com/images/M/MV5BOGQ3YWUzYjEtMTJiYy00ZjQ0LWI0YjktYjhiNGVhNGExYTM3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
     static let testTitltURL2 = "https://media.japanesestation.com/images/original/2020/05/11/53013-patma-inverted-poster.jpg"
