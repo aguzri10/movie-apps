@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct TitleDetailView: View {
     var title: Title
@@ -14,6 +15,8 @@ struct TitleDetailView: View {
     }
 
     @StateObject private var viewModel = ViewModel()
+    @Environment(\.modelContext) var modelContext
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         ScrollView {
@@ -38,6 +41,18 @@ struct TitleDetailView: View {
 
                         Text(title.overview ?? "")
                             .padding(.horizontal, 16)
+                        
+                        Button {
+                            let saveTitle = title
+                            saveTitle.title = titleName
+                            modelContext.insert(saveTitle)
+                            try? modelContext.save()
+                            dismiss()
+                        } label: {
+                            Text(Constants.downloadString)
+                                .gostButton()
+                        }
+                        .padding(.horizontal, 16)
                     }
 
                 case .failed(let error):

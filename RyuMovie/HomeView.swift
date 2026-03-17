@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 // ViewModel responsible for fetching trending movies
 // fetchStatus used to control UI state (loading, success, error)
@@ -15,6 +16,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var viewModel = ViewModel()
     @State private var path = NavigationPath()
+    @Environment(\.modelContext) var modelContext
     
     var body: some View {
         NavigationStack (path: $path) {
@@ -49,7 +51,8 @@ struct HomeView: View {
                                 }
                                 
                                 Button {
-                                    
+                                    modelContext.insert(viewModel.heroTitle)
+                                    try? modelContext.save()
                                 } label: {
                                     Text(Constants.downloadString)
                                         .gostButton()

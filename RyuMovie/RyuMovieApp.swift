@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 // Entry point aplikasi (analog Flutter: main() + runApp)
 // WindowGroup = root window
@@ -17,5 +18,6 @@ struct RyuMovieApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Title.self)
     }
 }

@@ -16,6 +16,14 @@ struct SearchView: View {
     var body: some View {
         NavigationStack (path: $path) {
             ScrollView {
+                if let error = searchViewModel.errorMessage {
+                    Text(error)
+                        .foregroundStyle(.red)
+                        .padding()
+                        .background(.ultraThinMaterial)
+                        .clipShape(.rect(cornerRadius: 10))
+                }
+                
                 LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
                     ForEach(searchViewModel.searchTitles) { title in
                         AsyncImage(url: URL(string: title.posterPath ?? "")) {
@@ -25,6 +33,9 @@ struct SearchView: View {
                             ProgressView()
                         }
                         .frame(width: 120, height: 200)
+                        .onTapGesture {
+                            path.append(title)
+                        }
                     }
                 }
             }
@@ -48,6 +59,9 @@ struct SearchView: View {
                     return
                 }
                 await searchViewModel.getSearchTitles(by: searchByMovies ? "movie" : "tv", for: searchText)
+            }
+            .navigationDestination(for: Title.self) { title in
+                TitleDetailView(title: title)
             }
         }
     }

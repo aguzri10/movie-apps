@@ -21,7 +21,7 @@ struct UpcomingView: View {
                     ProgressView()
                         .frame(width: geo.size.width, height: geo.size.height)
                 case .success:
-                    VerticalListView(titles: viewModel.upcomingMovies, path: $path)
+                    VerticalListView(titles: viewModel.upcomingMovies, canDelete: false)
                 case .failed(let error):
                     Text("Error fetching data: \(error.localizedDescription)")
                 }
